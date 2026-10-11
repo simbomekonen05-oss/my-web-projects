@@ -1,1 +1,38 @@
-
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Visual Code Editor — HTML, CSS & JavaScript</title>
+<style>
+*{box-sizing:border-box}body{margin:0;background:#f4f6fb;color:#182230;font-family:Arial,sans-serif}
+header{background:#111c2d;color:white;padding:20px 5vw}header h1{margin:0 0 6px;font-size:1.5rem}header p{margin:0;color:#cbd5e1}
+main{max-width:1200px;margin:24px auto;padding:0 16px;display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.panel{background:white;border:1px solid #dbe2ea;border-radius:12px;overflow:hidden}.panel h2{font-size:1rem;margin:0;padding:14px 16px;background:#eaf0f7}
+textarea{width:100%;min-height:350px;resize:vertical;border:0;padding:16px;font:14px/1.5 monospace;outline:none;background:#101d2d;color:#e5edf7}
+.actions{display:flex;gap:10px;padding:12px;flex-wrap:wrap}button{border:0;border-radius:8px;padding:10px 14px;background:#2457d6;color:white;font-weight:700;cursor:pointer}button.secondary{background:#e5eaf2;color:#1f2937}
+iframe{width:100%;height:350px;border:0;background:white}.wide{grid-column:1/-1}.clock{padding:16px;min-height:60px}
+@media(max-width:750px){main{grid-template-columns:1fr}.wide{grid-column:auto}textarea,iframe{min-height:280px}}
+</style></head><body>
+<header><h1>Visual Code Editor for HTML, CSS and JavaScript</h1><p>Write code, run it, and view the result in the preview panel.</p></header>
+<main>
+<section class="panel"><h2>HTML</h2><textarea id="htmlCode" spellcheck="false"><h2>Hello, world!</h2>
+<p>Edit this HTML, then click Run Preview.</p>
+<button onclick="document.getElementById('demo').textContent = new Date().toLocaleString()">Show date and time</button>
+<p id="demo"></p></textarea></section>
+<section class="panel"><h2>CSS</h2><textarea id="cssCode" spellcheck="false">body { font-family: Arial, sans-serif; padding: 24px; color: #183b66; }
+h2 { color: #2457d6; }
+button { padding: 10px 14px; border: 0; border-radius: 8px; background: #2457d6; color: white; cursor: pointer; }</textarea></section>
+<section class="panel"><h2>JavaScript</h2><textarea id="jsCode" spellcheck="false">// Add JavaScript here. Example:
+// document.querySelector('h2').textContent = 'My live preview';</textarea>
+<div class="actions"><button id="run">Run Preview</button><button class="secondary" id="reset">Reset Example</button></div></section>
+<section class="panel"><h2>Live Preview</h2><iframe id="preview" title="Live code preview" sandbox="allow-scripts"></iframe></section>
+<section class="panel wide"><h2>Date and Time Demo</h2><div class="clock"><button id="clockButton">Show JavaScript Date and Time</button><p id="clockOutput" aria-live="polite"></p></div></section>
+</main>
+<script>
+const defaults={html:'<h2>Hello, world!</h2>\\n<p>Edit this HTML, then click Run Preview.</p>\\n<button onclick="document.getElementById(\\'demo\\').textContent = new Date().toLocaleString()">Show date and time</button>\\n<p id="demo"></p>',css:'body { font-family: Arial, sans-serif; padding: 24px; color: #183b66; }\\nh2 { color: #2457d6; }\\nbutton { padding: 10px 14px; border: 0; border-radius: 8px; background: #2457d6; color: white; cursor: pointer; }',js:'// Add JavaScript here. Example:\\n// document.querySelector(\\'h2\\').textContent = \\'My live preview\\';'};
+function runPreview(){const html=document.getElementById('htmlCode').value;const css=document.getElementById('cssCode').value;const js=document.getElementById('jsCode').value;document.getElementById('preview').srcdoc='<!doctype html><html><head><style>'+css+'</style></head><body>'+html+'<script>'+js.replace(/<\/script/gi,'<\\/script')+'<\/script></body></html>';}
+document.getElementById('run').addEventListener('click',runPreview);
+document.getElementById('reset').addEventListener('click',()=>{document.getElementById('htmlCode').value=defaults.html;document.getElementById('cssCode').value=defaults.css;document.getElementById('jsCode').value=defaults.js;runPreview();});
+document.getElementById('clockButton').addEventListener('click',()=>document.getElementById('clockOutput').textContent=new Date().toLocaleString());
+runPreview();
+</script></body></html>
